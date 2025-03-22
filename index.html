@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + TS</title>
   </head>
-  <body>
-    <div id="app"></div>
+  <body>   
     <script type="module" src="/src/main.ts"></script>
+    <div id="app">
+      <div nameId="ui" style="position: absolute; z-index: 1;"></div>
+      <div nameId="scene" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0;"></div>
+    </div>
   </body>
 </html>

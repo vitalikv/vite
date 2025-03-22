@@ -1,15 +1,14 @@
 import * as THREE from 'three';
+import { myInitScene } from '../main';
 
-export class Mouse {
+export class MyMouse {
   scene;
-  camera;
   private isDown = false;
   private isMove = false;
   private offset = new THREE.Vector2();
 
-  constructor({ scene, camera }) {
+  constructor({ scene }) {
     this.scene = scene;
-    this.camera = camera;
 
     this.init();
   }
@@ -18,16 +17,21 @@ export class Mouse {
     document.body.addEventListener('pointerdown', this.onMouseDown);
     document.body.addEventListener('pointermove', this.onMouseMove);
     document.body.addEventListener('pointerup', this.onMouseUp);
+    document.body.addEventListener('wheel', this.mouseWheel);
   }
 
   onMouseDown = (e) => {
     this.isDown = true;
+
+    myInitScene.render();
   };
 
   onMouseMove = (e) => {
     if (!this.isDown) return;
 
     this.isMove = true;
+
+    myInitScene.render();
   };
 
   onMouseUp = (e) => {
@@ -56,18 +60,32 @@ export class Mouse {
     }
     this.isDown = false;
     this.isMove = false;
+
+    myInitScene.render();
   };
 
-  getRaycaster({ event, camera = this.camera, objects = this.scene.children }) {
+  mouseWheel = (e) => {
+    myInitScene.render();
+  };
+
+  getRaycaster({ event, objects = this.scene.children }) {
     const raycaster = new THREE.Raycaster();
-    const pointer = new THREE.Vector2();
+    const camera = myInitScene.getMyCameras().getCameraAct().camera;
+    const pos = this.getMousePosition(event);
 
-    pointer.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
-
-    raycaster.setFromCamera(pointer, camera);
+    raycaster.setFromCamera(pos, camera);
 
     const intersects = raycaster.intersectObjects(objects, false);
 
     return intersects;
+  }
+
+  getMousePosition(event) {
+    const container = myInitScene.getContainer();
+
+    const x = ((event.clientX - container.offsetLeft) / container.clientWidth) * 2 - 1;
+    const y = -((event.clientY - container.offsetTop) / container.clientHeight) * 2 + 1;
+
+    return new THREE.Vector2(x, y);
   }
 }

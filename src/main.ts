@@ -1,47 +1,13 @@
-import './style.css';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Mouse } from './core/mouse';
-import { Wall } from './house/wall';
+import './style/style.css';
+import { MyUiInit } from './ui/myUiInit';
+import { MyInitScene } from './core/myInitScene';
+import { MyInitHouse } from './house/myInitHouse';
 
-// Создание сцены
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xffffff);
+export const myUiInit = new MyUiInit();
+export const myInitScene = new MyInitScene();
+export const myInitHouse = new MyInitHouse();
 
-// Создание камеры
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 5;
-camera.position.y = 5;
-
-// Создание рендерера
-export const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-const controls = new OrbitControls(camera, renderer.domElement);
-
-new Mouse({ scene, camera });
-new Wall({ scene });
-
-const gridHelper = new THREE.GridHelper(30, 30);
-scene.add(gridHelper);
-
-const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Цвет и интенсивность
-scene.add(ambientLight);
-scene.add(new THREE.HemisphereLight(0xffffff, 0x223344, 0.4));
-
-// Функция анимации
-function animate() {
-  requestAnimationFrame(animate);
-
-  // Рендеринг сцены
-  renderer.render(scene, camera);
-}
-
-// Запуск анимации
-animate();
-
-saveFileInDir({ file: { id: 1 } });
+//saveFileInDir({ file: { id: 1 } });
 //loadFileInDir({});
 
 // сохранение в папку через php

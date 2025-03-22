@@ -19,6 +19,10 @@ export default defineConfig({
           src: 'src/php/*.php', // Путь к PHP-файлам
           dest: 'php', // Папка в dist, куда будут скопированы файлы
         },
+        {
+          src: 'src/img/*', // Путь к PHP-файлам
+          dest: 'img', // Папка в dist, куда будут скопированы файлы
+        },
       ],
     }),
   ],
